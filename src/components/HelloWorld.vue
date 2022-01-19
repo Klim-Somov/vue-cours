@@ -4,11 +4,13 @@
     <input type="text" v-model.number="operand1" />
     <input type="text" v-model.number="operand2" />
     {{ result }}
+    <hr>
     <button @click="plus">+</button>
     <button @click="minus">-</button>
     <button @click="dev">/</button>
     <button @click="degre(operand1, operand2)">степень</button>
     <button @click="mult(operand1, operand2)">*</button>
+    <button @click="cell(operand1, operand2)">//</button>
   </div>
 </template>
 
@@ -21,13 +23,17 @@ export default {
   data() {
     return {
       dis: true,
-      message: "vue-Калькулятор",
+      message: "vue-Калькулятор!",
       operand1: 0,
       operand2: 0,
       result: 0,
     };
   },
   methods: {
+     cell(op1, op2) {
+      this.result = Math.trunc(op1 / op2);
+    },
+    
     degre(op1, op2) {
        this.operand2 === 0 ? (this.result = 0) : this.result = Math.pow(op1, op2);
     },
