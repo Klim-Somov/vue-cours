@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       dis: true,
-      message: "vue-Калькулятор",
+      message: "vue-Калькулятор!",
       operand1: 0,
       operand2: 0,
       result: 0,
