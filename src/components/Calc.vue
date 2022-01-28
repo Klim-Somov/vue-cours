@@ -37,14 +37,8 @@
         {{ btn - 1 }}
       </button>
     </div>
-    <label>
-      <input type="radio" value="1" v-model="operch" name="operand" /> Операнд
-      1</label
-    >
-    <label>
-      <input type="radio" value="2" v-model="operch" name="operand" /> Операнд
-      2</label
-    >
+    <label><input type="radio" value="1" v-model="operch" name="operand" /> Операнд 1</label>
+    <label><input type="radio" value="2" v-model="operch" name="operand" /> Операнд 2</label>
 
   </div>
 </template>
@@ -61,7 +55,7 @@ export default {
       message: "vue-Калькулятор!",
       operand1: 0,
       operand2: 0,
-      operch:'operand1',
+      operch:'',
       result: 0,
       operations: ["+", "-", "*", "/", "степень"],
     };
