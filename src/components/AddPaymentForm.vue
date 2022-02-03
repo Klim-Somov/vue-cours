@@ -1,27 +1,32 @@
 <template>
   <div class="wrapper">
-    <input placeholder="Value" v-model.number="value" />
-    <div class="select">
+    <button class="toggle-btn" @click="toggleVisible()">Aad cost +</button>
+    <div v-if="elVisible" class="form">
+      <input type="number" placeholder="Сумма" v-model.number="value" />
       <select v-model="category">
-        <option v-for="(option, idx) in options" :key="idx">{{ option }}</option>
+        <option  v-for='(option, idx) in options' :key='idx'>{{ option }}</option>
+        
       </select>
+      <input type="date" placeholder="Дата" v-model="date" />
+      <button class="save-btn" @click="onSaveClick">Save</button>
     </div>
-    <input placeholder="Date" v-model="date" />
-    <button @click="onSaveClick">Save</button>
   </div>
 </template>
-
 <script>
 export default {
   name: "AddPaymentForm",
   data() {
     return {
-      value: 0,
+      elVisible: false,
+      value: "",
       category: "",
       date: "",
     };
   },
   computed: {
+    options(){
+      return this.$store.getters.getCategoryList
+    },
     getCurrentDate() {
       const today = new Date();
       const d = today.getDate();
@@ -29,11 +34,12 @@ export default {
       const y = today.getFullYear();
       return `${d}.${m}.${y}`;
     },
-    options(){
-      return this.$store.getters.getCategoryList
-    }
+   
   },
   methods: {
+    toggleVisible() {
+      this.elVisible = !this.elVisible;
+    },
     onSaveClick() {
       const data = {
         id: Date.now(),
@@ -41,18 +47,48 @@ export default {
         category: this.category,
         date: this.date || this.getCurrentDate,
       };
-      this.$emit('addPayment', data)
-      this.$store.commit('addDataToPaymentsList', data)
+      // this.$emit('addNewPayment', data)
+      this.$store.commit("addDataToPaymentsList", data);
     },
   },
-  async created() {
-    if(!this.options.length) {
-      await this.$store.dispatch('loadCategories')
-    }
+ async created() {
+    if (!this.options.lenght) {
+      await this.$store.dispatch('LoadCategories')
+    } 
     this.category = this.options[0]
   },
+
+  
+  
 };
 </script>
 
 <style lang="scss" scoped>
+.form {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+.save-btn {
+  border: none;
+  color: antiquewhite;
+  background-color: rgb(17, 163, 119);
+  padding: 8px 22px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.toggle-btn {
+  border: none;
+  color: antiquewhite;
+  background-color: rgb(17, 163, 119);
+  padding: 12px 30px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-top: 40px;
+}
+div {
+  font-family: Montserrat;
+}
 </style>

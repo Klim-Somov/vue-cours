@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <header>
-      <div class="title">My personal costs</div>
+      <div class="title">My personal cost</div>
+      TOTAL - {{ getFullPaymentValue }}
     </header>
     <main>
-     
-      <add-payment-form />
+      <add-payment-form @addNewPayment="addPayment"/>
       <payments-display :items="paymentsList" />
     </main>
   </div>
@@ -15,7 +15,7 @@
 import AddPaymentForm from '../components/AddPaymentForm.vue';
 import PaymentsDisplay from "../components/PaymentsDisplay.vue";
 // @ is an alias to /src
-
+import { mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: "Home",
@@ -25,44 +25,48 @@ export default {
   },
   data() {
     return {
-      show: false,
     };
   },
-  
+  computed: {
+    ...mapGetters([
+      'getFullPaymentValue'
+    ]),
+    paymentsList() {
+      return this.$store.getters.getPaymentList
+    }
+  },
   methods: {
-    
-    fetchData() {
-      return [
-        {
-          id: "1",
-          date: "28.03.2020",
-          category: "Food",
-          value: 169,
-        },
-        {
-          id: "2",
-          date: "24.03.2020",
-          category: "Transport",
-          value: 360,
-        },
-        {
-          id: "3",
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-      ];
+    ...mapMutations({
+     myMutatation:'setPaymentsListData'
+    }),
+    ...mapActions([
+      'fetchData',
+      
+    ]
+    ),
+    addPayment(data) {
+      this.$store.commit('addDataToPaymentsList', data)
     },
+   
   },
   created() {
+      
+       //ОБРАЩАЕМСЯ К ACTION
+      //  this.$store.dispatch('fetchData')
     this.fetchData()
-    // this.$store.dispatch('fetchData')
-    // this.myMuttaion(this.fetchData())
-    //this.$store.commit('setPamentsListData', this.fetchData())
-    this.paymentsList = this.fetchData();
+    // this.myMutatation(this.fetchData())
+    // this.$store.commit('setPaymentsListData', this.fetchData())
+    // this.paymentsList = this.fetchData();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
+.title {
+  font-size: 57px;
+  color: rgb(40, 17, 95);
+   font-family: Montserrat;
+   font-weight: 500;
+}
 </style>
