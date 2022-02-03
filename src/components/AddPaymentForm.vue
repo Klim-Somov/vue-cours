@@ -1,0 +1,94 @@
+<template>
+  <div class="wrapper">
+    <button class="toggle-btn" @click="toggleVisible()">Aad cost +</button>
+    <div v-if="elVisible" class="form">
+      <input type="number" placeholder="Сумма" v-model.number="value" />
+      <select v-model="category">
+        <option  v-for='(option, idx) in options' :key='idx'>{{ option }}</option>
+        
+      </select>
+      <input type="date" placeholder="Дата" v-model="date" />
+      <button class="save-btn" @click="onSaveClick">Save</button>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: "AddPaymentForm",
+  data() {
+    return {
+      elVisible: false,
+      value: "",
+      category: "",
+      date: "",
+    };
+  },
+  computed: {
+    options(){
+      return this.$store.getters.getCategoryList
+    },
+    getCurrentDate() {
+      const today = new Date();
+      const d = today.getDate();
+      const m = today.getMonth() + 1;
+      const y = today.getFullYear();
+      return `${d}.${m}.${y}`;
+    },
+   
+  },
+  methods: {
+    toggleVisible() {
+      this.elVisible = !this.elVisible;
+    },
+    onSaveClick() {
+      const data = {
+        id: Date.now(),
+        value: this.value,
+        category: this.category,
+        date: this.date || this.getCurrentDate,
+      };
+      // this.$emit('addNewPayment', data)
+      this.$store.commit("addDataToPaymentsList", data);
+    },
+  },
+ async created() {
+    if (!this.options.lenght) {
+      await this.$store.dispatch('LoadCategories')
+    } 
+    this.category = this.options[0]
+  },
+
+  
+  
+};
+</script>
+
+<style lang="scss" scoped>
+.form {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+.save-btn {
+  border: none;
+  color: antiquewhite;
+  background-color: rgb(17, 163, 119);
+  padding: 8px 22px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.toggle-btn {
+  border: none;
+  color: antiquewhite;
+  background-color: rgb(17, 163, 119);
+  padding: 12px 30px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-top: 40px;
+}
+div {
+  font-family: Montserrat;
+}
+</style>
