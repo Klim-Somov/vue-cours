@@ -4,8 +4,9 @@
     <div v-if="elVisible" class="form">
       <input type="number" placeholder="Сумма" v-model.number="value" />
       <select v-model="category">
-        <option  v-for='(option, idx) in options' :key='idx'>{{ option }}</option>
-        
+        <option v-for="(option, idx) in options" :key="idx">
+          {{ option }}
+        </option>
       </select>
       <input type="date" placeholder="Дата" v-model="date" />
       <button class="save-btn" @click="onSaveClick">Save</button>
@@ -24,8 +25,8 @@ export default {
     };
   },
   computed: {
-    options(){
-      return this.$store.getters.getCategoryList
+    options() {
+      return this.$store.getters.getCategoryList;
     },
     getCurrentDate() {
       const today = new Date();
@@ -34,7 +35,6 @@ export default {
       const y = today.getFullYear();
       return `${d}.${m}.${y}`;
     },
-   
   },
   methods: {
     toggleVisible() {
@@ -51,15 +51,26 @@ export default {
       this.$store.commit("addDataToPaymentsList", data);
     },
   },
- async created() {
+  async created() {
     if (!this.options.lenght) {
-      await this.$store.dispatch('LoadCategories')
-    } 
-    this.category = this.options[0]
+      await this.$store.dispatch("LoadCategories");
+    }
+    
   },
 
-  
-  
+  mounted() {
+    if (this.$route.params.category) {
+      this.category = this.$route.params.category;
+    }
+
+    if (this.$route.query.value) {
+      this.value = this.$route.query.value;
+    }
+    if (this.value && this.category) {
+      this.date = Date.now()
+      this.onSaveClick();
+    }
+  },
 };
 </script>
 

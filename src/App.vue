@@ -1,10 +1,13 @@
 <template>
   <div id="app">
     <div id="nav">
-      <!-- <router-link to="/">Home</router-link> | -->
-     
+      <router-link to="/dashboard">Home</router-link> |
+      <router-link to="/about">About</router-link> |
     </div>
-    <router-view/>
+    <router-view />
+   
+    <!-- <dash-board v-if="page === 'dashboard'"/>
+    <about v-if="page === 'about'"/> -->
   </div>
 </template>
 
@@ -25,7 +28,7 @@
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #3cc2b0;
     }
   }
 }
