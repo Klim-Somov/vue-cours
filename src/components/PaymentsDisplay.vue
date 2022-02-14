@@ -5,46 +5,64 @@
       <span>Категория</span>
       <span>Дата</span>
     </div>
-      <div class="item" v-for="item in items" :key="item.id">
-       
-       
-       <div>{{item.value}} </div>
-       <div>{{item.category}}</div>
-       <div>{{item.date}}</div>
-      
-      </div>
-    
-   </div>
-   
+    <div class="item" v-for="item in items" :key="item.id">
+      <div>{{ item.value }}</div>
+      <div>{{ item.category }}</div>
+      <div>{{ item.date }}</div>
+      <span @click="onShowContextMenu(item)">...</span> 
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-name: "PaymentsDisplay",
-props: {
+  name: "PaymentsDisplay",
+  props: {
     items: {
-        type: Array,
-        default: ()=>[],
-    }
-}
-}
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    editItem(){
+      console.log("item")
+    },
+    onShowContextMenu(item) {
+      const items = [
+        {
+          text: "Edit",
+          action: () => {
+            this.editItem(item)
+          },
+        },
+        {
+          text: "Delete",
+          action: ()=>{
+            console.log(item.id)
+          }
+        }
+      ];
+      this.$context.show(items)
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .item {
   padding: 10px 20px;
   border-top: 2px solid #666;
   margin: 40px auto;
   font-family: Montserrat;
-  font-weight:600;
+  font-weight: 600;
   justify-content: space-between;
   display: flex;
-  
-  
+
   max-width: 700px;
   background-color: rgb(143, 221, 210);
-
 }
 .titles {
   display: flex;
@@ -52,8 +70,7 @@ props: {
   justify-content: center;
   margin-top: 40px;
   span {
-     font-family: Montserrat;
+    font-family: Montserrat;
   }
-  
 }
 </style>

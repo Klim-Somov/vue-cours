@@ -5,10 +5,13 @@
         <b>To About</b>
       </div>
       <div class="title">My personal cost</div>
-      TOTAL - {{ getFullPaymentValue }}
     </header>
     <main>
-      <add-payment-form @addNewPayment="addPayment" />
+      TOTAL - {{ getFullPaymentValue }}
+      <br />
+      <button @click="onShowModal">showModal</button>
+      <hr />
+
       <payments-display :items="currentElements" />
       <pagination
         :length="paymentsList.length"
@@ -21,30 +24,38 @@
 </template>
 
 <script>
-import AddPaymentForm from "../components/AddPaymentForm.vue";
-import PaymentsDisplay from "../components/PaymentsDisplay.vue";
+// import AddPaymentForm from "../components/AddPaymentForm.vue";
+
 // @ is an alias to /src
 import { mapMutations, mapActions, mapGetters } from "vuex";
-import Pagination from "../components/Pagination.vue";
+
+
 
 export default {
   name: "Home",
   components: {
-    PaymentsDisplay,
-    AddPaymentForm,
-    Pagination,
+    PaymentsDisplay: ()=> import('../components/PaymentsDisplay.vue'),
+    Pagination: ()=> import('../components/Pagination.vue'),
+    
+    
+    
   },
   data() {
     return {
       curPage: 1,
-      n: 9,
+      n: 10,
+      modalShow: false,
+      settings: {
+        header: "Add payment Form",
+        content: "AddPaymentForm",
+      },
     };
   },
   computed: {
-    ...mapGetters(["getFullPaymentValue"]),
-    // getFPV() {
-    //   return this.$store.getters.getFullPaymentValue
-    // },
+    ...mapGetters([
+      "getFullPaymentValue"
+      ]),
+
     currentElements() {
       return this.paymentsList.slice(
         this.n * (this.curPage - 1),
@@ -63,41 +74,27 @@ export default {
     },
     ...mapMutations(["setPaymentsListData"]),
     ...mapActions(["fetchData"]),
+    onShowModal() {
+      this.$modal.show("AddPaymentForm", {
+        header: "Add payment form",
+        content: "AddPaymentForm",
+      });
+    },
+    
+
     addPayment(data) {
       this.$store.commit("addDataToPaymentsList", data);
     },
     onChangePage(page) {
       this.curPage = page;
     },
-    // fetchData() {
-    //   return [
-    //     {
-    //       id: "1",
-    //       date: "28.03.2020",
-    //       category: "Food",
-    //       value: 169,
-    //     },
-    //     {
-    //       id: "2",
-    //       date: "24.03.2020",
-    //       category: "Transport",
-    //       value: 360,
-    //     },
-    //     {
-    //       id: "3",
-    //       date: "24.03.2020",
-    //       category: "Food",
-    //       value: 532,
-    //     },
-    //   ];
-    // },
   },
   created() {
     const { page } = this.$route.params;
     if (page) {
       this.curPage = Number(page);
     }
-    this.fetchData();
+    // this.fetchData();
     // this.$store.dispatch('fetchData')
     // this.myMutation(this.fetchData())
     // this.$store.commit('setPaymentsListData', this.fetchData())

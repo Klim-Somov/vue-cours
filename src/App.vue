@@ -4,12 +4,54 @@
       <router-link to="/dashboard">Home</router-link> |
       <router-link to="/about">About</router-link> |
     </div>
+    <div class="main">
     <router-view />
-   
-    <!-- <dash-board v-if="page === 'dashboard'"/>
-    <about v-if="page === 'about'"/> -->
+</div>
+<transition name="fade">
+    <modal-window :settings="settings" v-if="modalWindowName " />
+    </transition>
   </div>
 </template>
+
+<script>
+
+export default {
+  components: { ModalWindow: ()=> import('./components/ModalWindow.vue'),
+},
+  name: "App",
+  data() {
+    return {
+      modalWindowName: '',
+      settings: {},
+    };
+  },
+  methods: {
+      onShown (settings) {
+      this.ModalWindowName = settings.name
+      // this.modalWindowSettings = settings
+      this.settings = settings
+    },
+    onHide () {
+      this.ModalWindowName = ''
+      // this.modalWindowSettings = {}
+      this.settings = {}
+    },
+
+
+  },
+  created() {
+    this.$store.dispatch("fetchData");
+  },
+  mounted() {
+    this.$modal.EventBus.$on("show", this.onShown);
+    this.$modal.EventBus.$on("hide", this.onHide);
+  },
+   beforeDestroy() {
+    this.$modal.EventBus.$off("show", this.onShown);
+    this.$modal.EventBus.$off("hide", this.onHide);
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -28,8 +70,17 @@
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #3cc2b0;
+      color: #42b983;
     }
   }
 }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+ 
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 </style>
+

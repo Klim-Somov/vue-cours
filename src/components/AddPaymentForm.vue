@@ -55,7 +55,7 @@ export default {
     if (!this.options.lenght) {
       await this.$store.dispatch("LoadCategories");
     }
-    
+    // this.category = this.options[0]
   },
 
   mounted() {
@@ -64,10 +64,10 @@ export default {
     }
 
     if (this.$route.query.value) {
-      this.value = this.$route.query.value;
+      this.value = +this.$route.query.value;
     }
     if (this.value && this.category) {
-      this.date = Date.now()
+      this.date = this.getCurrentDate
       this.onSaveClick();
     }
   },

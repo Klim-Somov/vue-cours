@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import DashBoard from '../views/DashBoard.vue'
-import page404 from '../views/page404.vue'
-import AddPaymentForm from '../components/AddPaymentForm.vue'
+
 
 Vue.use(VueRouter)
 
 const routes = [{
     path: '/dashboard',
     name: 'DashBoard',
-    component: DashBoard
+    component: () => import( /* webpackChunkName: "about" */ '../views/DashBoard.vue')
   },
+
   {
-    path: '/dashboard/:somePage',
-    name: 'dashBoard',
-    component: DashBoard
+    path: '/dashboard/:page',
+    name: 'DashBoardPage',
+    component: () => import( /* webpackChunkName: "about" */ '../views/DashBoard.vue')
   },
+  
+  
 
 
   {
@@ -26,7 +27,7 @@ const routes = [{
   {
     path: '/add/payment/:category',
     name: 'AddPaymentForm',
-    component: AddPaymentForm
+    component: () => import( /* webpackChunkName: "about" */ '../components/AddPaymentForm.vue')
 
   },
 
@@ -34,7 +35,7 @@ const routes = [{
 
     path: '*',
     name: "page404",
-    component: page404,
+    component: () => import( /* webpackChunkName: "about" */ '../views/page404.vue')
   },
   // {
   //   path: '*',
@@ -63,7 +64,7 @@ router.beforeEach((to, from, next) => {
 
 const getTitleByRouteName = routeName => {
   return {
-    'dashboard': 'Take a look on your payments and add more!',
+    'DashBoard': 'Take a look on your payments and add more!',
     'About': 'Anything about our awesome application!',
     'NotFound': 'Oops! Seems like we lost this page :('
   } [routeName]
