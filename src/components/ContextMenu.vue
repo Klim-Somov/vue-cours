@@ -2,8 +2,8 @@
     <div class="context" v-if="isShow" :style="styles">
         <div
             class="context__item"
-            v-for="(item, idx) in items"
-            :key="idx"
+            v-for="(item) in items"
+            :key="item.text"
             @click="onClickAction(item)"
         >{{ item.text }}</div>
     </div>
@@ -53,7 +53,7 @@ export default {
         this.$context.EventBus.$on('hide', this.onHide)
     },
     beforeDestroy() {
-        this.$context.EventBus.$off('show', this.onShow)
+        this.$context.EventBus.$off('show', this.onShown)
         this.$context.EventBus.$off('hide', this.onHide)
     },
 }
@@ -61,6 +61,10 @@ export default {
 <style lang="scss" scoped>
 .context {
     position: absolute;
-    background: #eee;
+    background: rgb(187, 150, 150);
     cursor: pointer;
+    border-radius: 5px;
+    
 }
+
+</style>

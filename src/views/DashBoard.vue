@@ -11,7 +11,7 @@
       <br />
       <button @click="onShowModal">showModal</button>
       <hr />
-
+<add-payment-form />
       <payments-display :items="currentElements" />
       <pagination
         :length="paymentsList.length"
@@ -36,6 +36,7 @@ export default {
   components: {
     PaymentsDisplay: ()=> import('../components/PaymentsDisplay.vue'),
     Pagination: ()=> import('../components/Pagination.vue'),
+    AddPaymentForm: ()=> import('../components/AddPaymentForm.vue'),
     
     
     
@@ -72,9 +73,13 @@ export default {
         name: "About",
       });
     },
-    ...mapMutations(["setPaymentsListData"]),
+    ...mapMutations([
+      "setPaymentsListData",
+      
+    ]),
     ...mapActions(["fetchData"]),
     onShowModal() {
+      
       this.$modal.show("AddPaymentForm", {
         header: "Add payment form",
         content: "AddPaymentForm",

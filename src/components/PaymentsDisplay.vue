@@ -6,15 +6,18 @@
       <span>Дата</span>
     </div>
     <div class="item" v-for="item in items" :key="item.id">
+      <div>{{ item.id }}</div>
       <div>{{ item.value }}</div>
       <div>{{ item.category }}</div>
       <div>{{ item.date }}</div>
-      <span @click="onShowContextMenu(item)">...</span> 
+      <span @click="onShowContextMenu($event, item)">...</span> 
     </div>
   </div>
 </template>
 
 <script>
+
+import { mapMutations } from "vuex";
 export default {
   name: "PaymentsDisplay",
   props: {
@@ -27,25 +30,16 @@ export default {
     return {};
   },
   methods: {
-    editItem(){
-      console.log("item")
-    },
-    onShowContextMenu(item) {
+    ...mapMutations([
+      "deleteItem"
+    ]),
+ 
+    onShowContextMenu(event, item) {
       const items = [
-        {
-          text: "Edit",
-          action: () => {
-            this.editItem(item)
-          },
-        },
-        {
-          text: "Delete",
-          action: ()=>{
-            console.log(item.id)
-          }
-        }
+        {text: "Edit", action: () => {this.$modal.show("AddPaymentForm", {item})},},
+        {text: "Delete", action: ()=>{this.deleteItem(item)}}
       ];
-      this.$context.show(items)
+      this.$context.show({event, items})
     },
   },
 };

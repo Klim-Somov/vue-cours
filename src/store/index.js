@@ -33,6 +33,7 @@ export default new Vuex.Store({
     categoryList: []
   },
   mutations: {
+
     setPaymentsListData(state, payload) {
       state.paymentsList = payload
     },
@@ -42,6 +43,11 @@ export default new Vuex.Store({
 
     setCategories(state, payload) {
       state.categoryList = payload
+
+    },
+    deleteItem(state, payload) {
+      state.categoryList = state.categoryList.filter(i => i!==payload )
+      state.paymentsList = state.paymentsList.filter(item => item!==payload )
 
     }
     // РЕАКТИВНОЕ ИЗМЕНЕНИЕ ЭЛЕМЕНТА МАССИВА ПО ИНДЕКСУ 
@@ -53,46 +59,44 @@ export default new Vuex.Store({
   actions: {
 
     // ИМИТАЦИЯ ЗАПРОСА НА СЕРВЕР. ЭКШОНС ИСПОЛЬЗУЕМ ДЛЯ АСИНК ЗАПРОСОВ
-    fetchData({ commit }) {
-      return new Promise((resolve) => {
-          setTimeout(() => {
+    async fetchData({ commit }) {
+      const res = await new Promise((resolve) => {
+        setTimeout(() => {
 
-            resolve([
-              {
-                date: '28.03.2020',
-                category: 'Food',
-                value: 169,
-              },
-              {
-                date: '24.03.2020',
-                category: 'Transport',
-                value: 360,
-              },
-              {
-                date: '24.03.2020',
-                category: 'Food',
-                value: 532,
-              },
-            ])
-          }, 4000)
-        })
-        .then(res => {
-          commit('setPaymentsListData', res)
-
-        })
+          resolve([
+            {
+              id: "1",
+              date: '28.03.2020',
+              category: 'Food',
+              value: 169,
+            },
+            {
+              id: "2",
+              date: '24.03.2020',
+              category: 'Transport',
+              value: 360,
+            },
+            {
+              id: "3",
+              date: '24.03.2020',
+              category: 'Food',
+              value: 532,
+            },
+          ])
+        }, 2000)
+      })
+      commit('setPaymentsListData', res)
 
     },
-    LoadCategories ({ commit }) {
-      return new Promise((resolve) => {
+    async LoadCategories ({ commit }) {
+      const res = await new Promise((resolve) => {
         // имитируем работу с сетью
         setTimeout(() => {
           resolve(['Food', 'Transport', 'Education', 'Entertainment', 'Sports'])
-        }, 1500)
+        }, 1000)
       })
-        .then(res => {
-          // запускаем изменение состояния через commit
-          commit('setCategories', res)
-        })
+      // запускаем изменение состояния через commit
+      commit('setCategories', res)
     },
    
 

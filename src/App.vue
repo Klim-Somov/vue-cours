@@ -10,15 +10,20 @@
 <transition name="fade">
     <modal-window :settings="settings" v-if="modalWindowName " />
     </transition>
+    <transition name="fade" >
+      <context-menu />
+      </transition>
   </div>
 </template>
 
 <script>
+import ContextMenu from './components/ContextMenu.vue';
 
 export default {
-  components: { ModalWindow: ()=> import('./components/ModalWindow.vue'),
+  components: { ModalWindow: ()=> import('./components/ModalWindow.vue'), ContextMenu 
 },
-  name: "App",
+  
+    ContextMenuname: "App",
   data() {
     return {
       modalWindowName: '',

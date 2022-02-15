@@ -27,7 +27,8 @@ export default {
     methods:{
         onClose(){
             this.$modal.hide()
-        }
+        },
+      
     }
 }
 </script>

@@ -14,17 +14,25 @@
   </div>
 </template>
 <script>
+import { mapGetters} from "vuex"
 export default {
   name: "AddPaymentForm",
   data() {
     return {
       elVisible: false,
+      id: "",
       value: "",
       category: "",
       date: "",
     };
   },
+  props: {
+    item: Number
+  },
   computed: {
+    ...mapGetters([
+      'getPaymentsList'
+    ]),
     options() {
       return this.$store.getters.getCategoryList;
     },
@@ -59,6 +67,15 @@ export default {
   },
 
   mounted() {
+    if (this.id) {
+      const item = this.getPaymentsList.find(p => p.id== this.id)
+      if (item) {
+        this.date = item.date 
+        this.category = item.category 
+        this.value = item.value 
+      }
+    }
+
     if (this.$route.params.category) {
       this.category = this.$route.params.category;
     }
