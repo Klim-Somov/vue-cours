@@ -1,5 +1,46 @@
 <template>
-  <div class="home">
+<v-container>
+<v-row>
+<v-col>
+  <div class="title text-h5 text-sm-h3 mb-9 mb-xs-2 " >My personal costs </div>
+   <v-dialog
+      v-model="dialog" width="500">
+      <template #activator="{ on }">
+        <v-btn class="mb-6"
+          color="teal"
+          dark
+          v-on="on"
+        >
+          Add new cost <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+
+      <v-card>
+        <add-payment-form @onAdd="dialog=false"/>
+      </v-card>
+
+     </v-dialog>
+
+  
+      <payments-display :items="currentElements" />
+      <pagination
+        :length="paymentsList.length"
+        :cur="curPage"
+        :n="n"
+        @paginate="onChangePage"
+      />
+</v-col>
+<!-- <v-col>
+  CHART
+</v-col> -->
+
+</v-row>
+
+</v-container>
+
+
+
+  <!-- <div class="home">
     <header>
       <div @click="toAbout">
         <b>To About</b>
@@ -20,29 +61,25 @@
         @paginate="onChangePage"
       />
     </main>
-  </div>
+  </div> -->
 </template>
 
 <script>
-// import AddPaymentForm from "../components/AddPaymentForm.vue";
 
-// @ is an alias to /src
 import { mapMutations, mapActions, mapGetters } from "vuex";
-
-
 
 export default {
   name: "Home",
   components: {
     PaymentsDisplay: ()=> import('../components/PaymentsDisplay.vue'),
     Pagination: ()=> import('../components/Pagination.vue'),
-    AddPaymentForm: ()=> import('../components/AddPaymentForm.vue'),
-    
+    AddPaymentForm: ()=> import('../components/AddPaymentForm.vue')
     
     
   },
   data() {
     return {
+      dialog: false,
       curPage: 1,
       n: 10,
       modalShow: false,
@@ -99,7 +136,7 @@ export default {
     if (page) {
       this.curPage = Number(page);
     }
-    // this.fetchData();
+    this.fetchData();
     // this.$store.dispatch('fetchData')
     // this.myMutation(this.fetchData())
     // this.$store.commit('setPaymentsListData', this.fetchData())
@@ -110,9 +147,10 @@ export default {
 
 <style lang="scss" scoped>
 .title {
-  font-size: 57px;
-  color: rgb(40, 17, 95);
+  
+  color: rgb(6, 4, 7);
   font-family: Montserrat;
-  font-weight: 500;
+  font-weight: 700;
+ 
 }
 </style>

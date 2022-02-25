@@ -1,17 +1,59 @@
 <template>
-  <div class="wrapper">
+<v-card class="pa-4">
+     <v-text-field
+            label="Сумма"
+            placeholder="Сумма"
+            v-model.number="value"
+          ></v-text-field>
+
+             <v-text-field
+             type="date"
+            label="Дата"
+            placeholder="Дата"
+            v-model="date"
+          ></v-text-field>
+
+              <v-select
+              v-model="category"
+          :items="options"
+          filled
+          label="Категории"
+          
+        ></v-select>
+<v-btn
+   @click="onSaveClick"
+   class="mx-2"
+      fab
+      dark
+      color="teal"
+    >
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+  </v-btn>
+</v-card>
+  <!-- <div class="wrapper">
     <button class="toggle-btn" @click="toggleVisible()">Aad cost +</button>
     <div v-if="elVisible" class="form">
-      <input type="number" placeholder="Сумма" v-model.number="value" />
-      <select v-model="category">
+      <v-container>
+        <v-row>
+          <v-col :cols="2"><input type="number" placeholder="Сумма" v-model.number="value" /> </v-col>
+          <v-col :cols="5"> <select v-model="category">
         <option v-for="(option, idx) in options" :key="idx">
           {{ option }}
         </option>
-      </select>
-      <input type="date" placeholder="Дата" v-model="date" />
-      <button class="save-btn" @click="onSaveClick">Save</button>
+      </select> </v-col>
+          <v-col :cols="5"><input type="date" placeholder="Дата" v-model="date" /></v-col>
+        </v-row>
+      
+      
+      </v-container>
+      
+     
+      
+      
     </div>
-  </div>
+  </div> -->
 </template>
 <script>
 import { mapGetters} from "vuex"
@@ -57,13 +99,16 @@ export default {
       };
       // this.$emit('addNewPayment', data)
       this.$store.commit("addDataToPaymentsList", data);
+      this.value = ""
+      this.$emit('onAdd')
+      
     },
   },
   async created() {
-    if (!this.options.lenght) {
+    
       await this.$store.dispatch("LoadCategories");
-    }
-    // this.category = this.options[0]
+   this.category = this.options[0]
+   
   },
 
   mounted() {
@@ -87,6 +132,9 @@ export default {
       this.date = this.getCurrentDate
       this.onSaveClick();
     }
+    
+    
+
   },
 };
 </script>

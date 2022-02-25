@@ -43,7 +43,7 @@ export default {
    & > div {
        padding: 10px;
     &.active {
-        background-color: rgb(161, 49, 49);
+        background-color: rgb(130, 177, 174);
     }
     }
 }

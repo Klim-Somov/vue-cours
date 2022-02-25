@@ -1,5 +1,21 @@
 <template>
-  <div class="wrapper">
+<v-container>
+  <v-row >
+    
+    <v-col :cols="3">Сумма</v-col>
+    <v-col :cols="4">Категория</v-col>
+    <v-col :cols="5">Дата</v-col>
+    </v-row>
+    <v-row v-for="item in items" :key="item.id" >
+ 
+    
+    <v-col :cols="3">{{ item.value }}</v-col>
+    <v-col :cols="4">{{ item.category }}</v-col>
+    <v-col :cols="5">{{ item.date }}</v-col>
+
+    </v-row>
+</v-container>
+  <!-- <div class="wrapper">
     <div class="titles">
       <span>Сумма</span>
       <span>Категория</span>
@@ -12,7 +28,7 @@
       <div>{{ item.date }}</div>
       <span @click="onShowContextMenu($event, item)">...</span> 
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>

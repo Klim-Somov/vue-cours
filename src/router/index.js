@@ -15,8 +15,11 @@ const routes = [{
     name: 'DashBoardPage',
     component: () => import( /* webpackChunkName: "about" */ '../views/DashBoard.vue')
   },
-  
-  
+ { 
+  path: '/calc',
+  name: 'Calc',
+  component: () => import( /* webpackChunkName: "about" */ '../components/Calc.vue')
+},
 
 
   {
