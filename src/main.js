@@ -6,7 +6,12 @@ import modal from './Plugins/ModalWindow'
 import context from './Plugins/Context'
 import vuetify from './Plugins/vuetify'
 
+
+
+
 Vue.config.productionTip = false
+
+
 
 Vue.use(modal)
 Vue.use(context)

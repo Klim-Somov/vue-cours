@@ -1,13 +1,13 @@
 import TestComponent from "../components/TestComponent.vue";
 import { mount } from '@vue/test-utils'
 
-describe('TestComponent', ()=>{
+describe('TestComponent', ()=> {
     test('Testing props', ()=>{
-        const wrapper = mount(TestComponent, {
-            propsData: {
-                message: "Hello World"
+            const wrapper = mount(TestComponent, {
+                propsData: {
+                    message: "Hello World"
             }
         })
-        expect(wrapper.text()).toContain('Hello World')
+        expect(wrapper.text()).toEqual('The message is: Hello World')
     })
 })

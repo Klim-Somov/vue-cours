@@ -1,15 +1,16 @@
 <template>
-  <div>
-    <input v-model="propComp" name="test" />
-    <button @click="onSave" name="save">Save</button>
+  <div class="">
+      <input v-model="propComp" name="test" />
+      <button @click="onSave" name="save">Save</button>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex"
+
 export default {
-    name: "TestVuex",
-    data() {
+    name: "testVuex",
+    data(){
         return {
             propComp: ''
         }
@@ -19,7 +20,7 @@ export default {
         onSave(){
             this.addData(this.propComp)
         }
-    },
+    }
 }
 </script>
 
